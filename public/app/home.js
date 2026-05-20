@@ -573,9 +573,10 @@
 
     function outputContact() {
       return (
+        '<span style="color:var(--color-accent)">Email:</span>    <span style="color:var(--color-text)">contact@notes.supply</span>\n' +
         '<span style="color:var(--color-accent)">GitHub:</span>   <span style="color:var(--color-text)">github.com/OneNoted</span>\n' +
         '<span style="color:var(--color-accent)">Website:</span>  <span style="color:var(--color-text)">notes.supply</span>\n' +
-        '<span style="color:var(--color-accent)">Scope:</span>    <span style="color:var(--color-text)">software, systems, field notes</span>'
+        '<span style="color:var(--color-accent)">Scope:</span>    <span style="color:var(--color-text)">DevOps, Kubernetes, IT infrastructure, custom software</span>'
       );
     }
 
@@ -682,7 +683,7 @@
         pushLine(
           "output",
           "<span " + accent + "># About</span>\n\n" +
-            "<span " + text + ">notes.supply is the running notebook behind a pile of Rust\nprojects, self-hosted infrastructure, and small experiments\nthat should probably have stayed small.\n\nThe landing page keeps the old terminal ritual intact while\nthe surrounding site stays intentionally minimal: just the\nhero, live GitHub data, and direct paths into repositories.</span>"
+            "<span " + text + ">notes.supply builds and operates practical software, systems,\nand infrastructure: DevOps, Kubernetes, self-hosted platforms,\ncustom tools, and the glue code that keeps teams moving.\n\nThe landing page keeps the old terminal ritual intact while\nthe surrounding site stays intentionally minimal: just the\nhero, live GitHub data, and direct paths into repositories.</span>"
         );
         return;
       }

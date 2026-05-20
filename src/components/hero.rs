@@ -44,17 +44,21 @@ pub fn Hero() -> Element {
                         p {
                             class: "hero-content text-sm text-text-dim leading-relaxed max-w-md mx-auto mb-5",
                             style: "--hero-reveal-delay: 0.28s; font-family: var(--font-mono)",
-                            "building software, systems, and tools."
+                            "DevOps, Kubernetes, and IT infrastructure."
                             br {}
-                            "Biting off more than I can chew since '07."
+                            "Custom software, systems, and tools built to fit."
                         }
 
                         div {
                             class: "hero-content flex flex-col items-center gap-0.5",
                             style: "--hero-reveal-delay: 0.5s; font-family: var(--font-mono)",
                             a {
-                                href: "/",
+                                href: "mailto:contact@notes.supply",
                                 class: "block text-[10px] text-text-muted hover:text-accent transition-colors duration-fast tracking-wide",
+                                "contact"
+                                "["
+                                span { style: "color: var(--color-accent)", "at" }
+                                "]"
                                 "notes"
                                 "["
                                 span { style: "color: var(--color-accent)", "dot" }

@@ -52,8 +52,6 @@
     --tracking-wide: 0.025em;
     --leading-relaxed: 1.625;
     --radius-sm: 4px;
-    --ease-out: cubic-bezier(0, 0, 0.2, 1);
-    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
