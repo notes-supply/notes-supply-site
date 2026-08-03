@@ -574,7 +574,7 @@
     function outputContact() {
       return (
         '<span style="color:var(--color-accent)">Email:</span>    <span style="color:var(--color-text)">contact@notes.supply</span>\n' +
-        '<span style="color:var(--color-accent)">GitHub:</span>   <span style="color:var(--color-text)">github.com/OneNoted</span>\n' +
+        '<span style="color:var(--color-accent)">GitHub:</span>   <span style="color:var(--color-text)">github.com/notes-supply</span>\n' +
         '<span style="color:var(--color-accent)">Website:</span>  <span style="color:var(--color-text)">notes.supply</span>\n' +
         '<span style="color:var(--color-accent)">Scope:</span>    <span style="color:var(--color-text)">DevOps, Kubernetes, IT infrastructure, custom software</span>'
       );

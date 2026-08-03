@@ -21,7 +21,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
@@ -52,7 +52,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -64,8 +64,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: OneNoted
-          password: ${{ secrets.GHCR_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compute short SHA
         id: vars
@@ -78,7 +78,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/onenoted/notes-supply-site:main-${{ github.run_number }}-${{ steps.vars.outputs.short_sha }}
+          tags: ghcr.io/notes-supply/notes-supply-site:main-${{ github.run_number }}-${{ steps.vars.outputs.short_sha }}
           labels: |
             org.opencontainers.image.title=notes-supply-site
             org.opencontainers.image.description=notes.supply website
