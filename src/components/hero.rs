@@ -66,7 +66,7 @@ pub fn Hero() -> Element {
                                 "supply"
                             }
                             a {
-                                href: "https://github.com/OneNoted",
+                                href: "https://github.com/notes-supply",
                                 target: "_blank",
                                 rel: "noopener",
                                 class: "block text-[10px] text-text-muted hover:text-accent transition-colors duration-fast tracking-wide",
@@ -78,7 +78,7 @@ pub fn Hero() -> Element {
                                 "["
                                 span { style: "color: var(--color-accent)", "/" }
                                 "]"
-                                "onenoted"
+                                "notes-supply"
                             }
                         }
                     }

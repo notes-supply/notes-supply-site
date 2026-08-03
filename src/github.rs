@@ -81,7 +81,7 @@ pub async fn fetch_readme(slug: &str) -> Result<String, Box<dyn std::error::Erro
         .user_agent("notes-supply-site/0.1")
         .build()?;
 
-    let url = format!("https://api.github.com/repos/OneNoted/{slug}/readme");
+    let url = format!("https://api.github.com/repos/notes-supply/{slug}/readme");
     let mut request = client
         .get(&url)
         .header("Accept", "application/vnd.github.raw+json");
@@ -104,7 +104,7 @@ async fn fetch_repos() -> Result<Vec<Project>, reqwest::Error> {
         .user_agent("notes-supply-site/0.1")
         .build()?;
 
-    let url = "https://api.github.com/users/OneNoted/repos?per_page=100&sort=updated";
+    let url = "https://api.github.com/orgs/notes-supply/repos?per_page=100&sort=updated";
     let mut request = client.get(url);
 
     if let Some(token) = github_token() {
@@ -145,7 +145,7 @@ async fn fetch_languages() -> Result<Vec<(String, f64)>, Box<dyn std::error::Err
 
     for project in &projects {
         let url = format!(
-            "https://api.github.com/repos/OneNoted/{}/languages",
+            "https://api.github.com/repos/notes-supply/{}/languages",
             project.slug
         );
         let response = client.get(&url).bearer_auth(&token).send().await?;

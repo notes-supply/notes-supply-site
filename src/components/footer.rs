@@ -15,7 +15,7 @@ pub fn Footer() -> Element {
                     class: "flex items-center gap-4",
                     style: "flex: 0 0 auto;",
                     a {
-                        href: "https://github.com/OneNoted",
+                        href: "https://github.com/notes-supply",
                         target: "_blank",
                         rel: "noopener",
                         class: "hover:text-accent transition-colors duration-fast",
