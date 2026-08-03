@@ -42,4 +42,6 @@ ENV NOTES_SUPPLY_SITE_WEB_ROOT=/app/public
 
 EXPOSE 4000
 
+USER 65532:65532
+
 CMD ["notes-supply-site-server"]
