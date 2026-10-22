@@ -1,6 +1,7 @@
 {
   "name": "notes-supply-site",
   "private": true,
+  "engines": { "node": ">=24.22.1 <25" },
   "scripts": {
     "build:css": "npx @tailwindcss/cli -i style/input.css -o public/assets/style.css --minify",
     "watch:css": "npx @tailwindcss/cli -i style/input.css -o public/assets/style.css --watch"

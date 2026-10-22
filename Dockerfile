@@ -1,4 +1,8 @@
-FROM rust:1.93-bookworm AS chef
+FROM rust:1.98.0-bookworm@sha256:82150a52ec202c1b14d7817e14516c392bb7f5cfebd88f1ed531cb37ebd39922 AS chef
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN cargo install cargo-chef --locked --version 0.1.74 \
     && cargo install dioxus-cli --locked --version 0.7.3 \
@@ -23,7 +27,7 @@ COPY . .
 # crashes on this project when DWARF sections are present.
 ENV CARGO_PROFILE_RELEASE_DEBUG=0
 
-RUN cargo build --release --features server --bin notes-supply-site-server
+RUN cargo build --locked --release --features server --bin notes-supply-site-server
 RUN dx build --platform web --release
 
 FROM debian:bookworm-slim AS runtime
