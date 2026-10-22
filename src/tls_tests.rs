@@ -20,28 +20,42 @@ async fn incident_tls_chains_are_rejected() {
     println!("valid-control: HTTP success and response body read");
 
     let mut rejected = 0;
-    for name in ["dv-g3b", "dv-g3c", "ov-g3b", "ov-g3c", "ev-g3b", "ev-g3c"] {
-        for suffix in ["", "-aaa"] {
-            let url = format!("https://{name}{suffix}-emudhra.we-have-a-problem.com/");
-            let error = client
-                .get(&url)
-                .send()
-                .await
-                .expect_err("compromised chain must fail");
-            let diagnostic = format!("{error:?}");
-            assert!(
-                !error.is_timeout(),
-                "inconclusive timeout: {url}: {diagnostic}"
-            );
-            assert!(
-                diagnostic.to_lowercase().contains("certificate"),
-                "not a certificate rejection: {url}: {diagnostic}"
-            );
-            println!("{url}: {diagnostic}");
-            rejected += 1;
-        }
+    let hosts = [
+        "dv-g3b",
+        "dv-g3c",
+        "ov-g3b",
+        "ov-g3c",
+        "ev-g3b",
+        "ev-g3c",
+        "dv-g3b-aaa",
+        "dv-g3c-aaa",
+        "ov-g3b-aaa",
+        "ov-g3c-aaa",
+        "ev-g3b-aaa",
+        "ev-g3c-aaa",
+        "dv-g3b-noct",
+        "dv-g3b-aaa-noct",
+    ];
+    for host in hosts {
+        let url = format!("https://{host}-emudhra.we-have-a-problem.com/");
+        let error = client
+            .get(&url)
+            .send()
+            .await
+            .expect_err("compromised chain must fail");
+        let diagnostic = format!("{error:?}");
+        assert!(
+            !error.is_timeout(),
+            "inconclusive timeout: {url}: {diagnostic}"
+        );
+        assert!(
+            diagnostic.to_lowercase().contains("certificate"),
+            "not a certificate rejection: {url}: {diagnostic}"
+        );
+        println!("{url}: {diagnostic}");
+        rejected += 1;
     }
-    assert_eq!(rejected, 12);
+    assert_eq!(rejected, hosts.len());
     for url in [
         "https://wrong.host.badssl.com/",
         "https://self-signed.badssl.com/",
@@ -62,7 +76,10 @@ async fn incident_tls_chains_are_rejected() {
         );
         println!("{url}: {diagnostic}");
     }
-    println!("incident certificate rejections: {rejected}/12; invalid controls: 2/2");
+    println!(
+        "incident certificate rejections: {rejected}/{}; invalid controls: 2/2",
+        hosts.len()
+    );
 }
 
 #[test]
