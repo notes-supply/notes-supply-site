@@ -1,12 +1,17 @@
 {
   "name": "notes-supply-site",
   "private": true,
-  "engines": { "node": ">=24.22.1 <25" },
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
   "scripts": {
+    "dev": "npm run build:css && concurrently --kill-others --names css,web \"npm run watch:css\" \"dx serve\"",
+    "build": "npm run build:css && dx build --platform web --release",
     "build:css": "npx @tailwindcss/cli -i style/input.css -o public/assets/style.css --minify",
     "watch:css": "npx @tailwindcss/cli -i style/input.css -o public/assets/style.css --watch"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.13"
+    "@tailwindcss/cli": "^4.1.13",
+    "concurrently": "10.0.6"
   }
 }
