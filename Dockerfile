@@ -1,6 +1,8 @@
 FROM rust:1.98.0-bookworm@sha256:82150a52ec202c1b14d7817e14516c392bb7f5cfebd88f1ed531cb37ebd39922 AS chef
 
-RUN apt-get update \
+ARG CARGO_BUILD_JOBS=1
+
+RUN apt-get update --error-on=any \
     && apt-get install -y --no-install-recommends ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
@@ -32,7 +34,7 @@ RUN dx build --platform web --release
 
 FROM debian:bookworm-slim AS runtime
 
-RUN apt-get update \
+RUN apt-get update --error-on=any \
     && apt-get install -y --no-install-recommends ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
