@@ -2,6 +2,14 @@
 
 Use Node 24.22.1 and the Rust/Dioxus versions pinned in CI.
 
+Start the API backend in one terminal:
+
+```sh
+cargo run --locked --features server --bin notes-supply-site-server
+```
+
+In another terminal, start the web development server:
+
 ```sh
 npm ci --ignore-scripts
 npm run dev
