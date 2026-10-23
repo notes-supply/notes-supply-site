@@ -12,6 +12,14 @@ RUN cargo install cargo-chef --locked --version 0.1.74 \
 
 WORKDIR /app
 
+FROM node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205 AS css
+
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts
+COPY . .
+RUN npm run build:css
+
 FROM chef AS planner
 
 COPY . .
@@ -24,6 +32,7 @@ RUN cargo chef cook --release --features server --recipe-path recipe.json
 RUN cargo chef cook --release --target wasm32-unknown-unknown --recipe-path recipe.json
 
 COPY . .
+COPY --from=css /app/public/assets/style.css /app/public/assets/style.css
 
 # Avoid debug info in release wasm builds; wasm-opt on the bundled binaryen build
 # crashes on this project when DWARF sections are present.
