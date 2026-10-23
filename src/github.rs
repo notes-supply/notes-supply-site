@@ -76,10 +76,21 @@ pub async fn get_languages() -> Vec<(String, f64)> {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-pub async fn fetch_readme(slug: &str) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
-    let client = reqwest::Client::builder()
+fn http_client() -> Result<reqwest::Client, reqwest::Error> {
+    reqwest::Client::builder()
         .user_agent("notes-supply-site/0.1")
-        .build()?;
+        .https_only(true)
+        .timeout(std::time::Duration::from_secs(15))
+        .build()
+}
+
+#[cfg(all(test, not(target_arch = "wasm32")))]
+#[path = "tls_tests.rs"]
+mod tls_tests;
+
+#[cfg(not(target_arch = "wasm32"))]
+pub async fn fetch_readme(slug: &str) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
+    let client = http_client()?;
 
     let url = format!("https://api.github.com/repos/notes-supply/{slug}/readme");
     let mut request = client
@@ -100,9 +111,7 @@ pub async fn fetch_readme(slug: &str) -> Result<String, Box<dyn std::error::Erro
 
 #[cfg(not(target_arch = "wasm32"))]
 async fn fetch_repos() -> Result<Vec<Project>, reqwest::Error> {
-    let client = reqwest::Client::builder()
-        .user_agent("notes-supply-site/0.1")
-        .build()?;
+    let client = http_client()?;
 
     let url = "https://api.github.com/orgs/notes-supply/repos?per_page=100&sort=updated";
     let mut request = client.get(url);
@@ -136,9 +145,7 @@ async fn fetch_languages() -> Result<Vec<(String, f64)>, Box<dyn std::error::Err
     let token = github_token()
         .ok_or("GITHUB_TOKEN not set — needed for language stats")?;
 
-    let client = reqwest::Client::builder()
-        .user_agent("notes-supply-site/0.1")
-        .build()?;
+    let client = http_client()?;
 
     let projects = PROJECT_CACHE.read().await.clone();
     let mut totals: std::collections::HashMap<String, u64> = std::collections::HashMap::new();
@@ -191,9 +198,7 @@ async fn fetch_contributions() -> Result<u32, Box<dyn std::error::Error + Send +
     let token = github_token()
         .ok_or("GITHUB_TOKEN not set — needed for contribution count")?;
 
-    let client = reqwest::Client::builder()
-        .user_agent("notes-supply-site/0.1")
-        .build()?;
+    let client = http_client()?;
 
     let query = r#"{"query":"{ user(login: \"OneNoted\") { contributionsCollection { contributionCalendar { totalContributions } } } }"}"#;
 

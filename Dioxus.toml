@@ -3,8 +3,6 @@ name = "notes-supply-site"
 default_platform = "web"
 out_dir = "dist"
 public_dir = "public"
-tailwind_input = "style/input.css"
-tailwind_output = "public/assets/style.css"
 
 [web.app]
 title = "notes.supply"
