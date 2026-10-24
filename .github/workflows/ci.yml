@@ -34,8 +34,21 @@ jobs:
         with:
           save-if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
 
+      # The release's own binary, checked against the digest GitHub recorded for
+      # it, instead of compiling the CLI whenever the Rust cache is cold. It needs
+      # glibc 2.39, so the bookworm Docker build still installs it from source.
       - name: Install Dioxus CLI
-        run: cargo install dioxus-cli --locked --version 0.7.3
+        env:
+          DX_URL: https://github.com/DioxusLabs/dioxus/releases/download/v0.7.3/dx-x86_64-unknown-linux-gnu.tar.gz
+          DX_SHA256: f274f22d7ed0382d638759cc00b5b7c011457829e83011052ca191c7879f7a0e
+        run: |
+          archive="$RUNNER_TEMP/dx.tar.gz"
+          curl --fail --silent --show-error --location --retry 3 --proto '=https' --output "$archive" "$DX_URL"
+          echo "$DX_SHA256  $archive" | sha256sum --check --strict -
+          mkdir -p "$RUNNER_TEMP/dx"
+          tar -xzf "$archive" -C "$RUNNER_TEMP/dx" dx
+          "$RUNNER_TEMP/dx/dx" --version
+          echo "$RUNNER_TEMP/dx" >> "$GITHUB_PATH"
 
       - name: Check server build
         run: cargo check --locked --features server
